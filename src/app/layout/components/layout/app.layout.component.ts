@@ -1,26 +1,16 @@
 import { Component, computed, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AppTopbar } from './app.topbar';
-import { AppSidebar } from './app.sidebar';
-import { AppFooter } from './app.footer';
 import { LayoutService } from '@/app/layout/service/layout.service';
-
+import { AppTopbar } from '../topbar/app.topbar.component';
+import { AppSidebar } from '../sidebar/app.sidebar.component';
+import { AppFooter } from '../footer/app.footer.component';
 @Component({
     selector: 'app-layout',
     standalone: true,
     imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppFooter],
-    template: `<div class="layout-wrapper" [ngClass]="containerClass()">
-        <app-topbar></app-topbar>
-        <app-sidebar></app-sidebar>
-        <div class="layout-main-container">
-            <div class="layout-main">
-                <router-outlet></router-outlet>
-            </div>
-            <app-footer></app-footer>
-        </div>
-        <div class="layout-mask"></div>
-    </div> `
+    templateUrl: './app.layout.component.html',
+    styleUrl: './app.layout.component.scss'
 })
 export class AppLayout {
     layoutService = inject(LayoutService);

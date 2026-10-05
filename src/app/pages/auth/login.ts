@@ -1,3 +1,4 @@
+import { AppFloatingConfigurator } from '@/app/layout/components/floating-configurator/app.floatingconfigurator.component';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -6,7 +7,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
 
 @Component({
     selector: 'app-login',
