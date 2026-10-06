@@ -3,15 +3,11 @@ import { CanActivateFn, Router } from '@angular/router';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  
-  // localStorage থেকে টোকেন চেক করা হচ্ছে
-  const token = localStorage.getItem('jwt_token'); 
-
+  const token = localStorage.getItem('accessToken'); 
   if (token) {
-    return true; // টোকেন থাকলে কাঙ্ক্ষিত পেজে যেতে পারবে
-  } 
-  
-  // টোকেন না থাকলে লগইন পেজে রিডাইরেক্ট করে দেবে
-  router.navigate(['/login']);
+    return true; 
+  }   
+  console.log('Access denied. User is not authenticated.');
+  router.navigate(['/auth/access-denied']);
   return false;
 };

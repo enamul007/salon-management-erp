@@ -7,6 +7,6 @@ import { Routes } from '@angular/router';
 export const authRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'error', component: ErrorComponent },
-    { path: 'access', component: AccessDeniedComponent },
+    { path: 'access-denied', component: AccessDeniedComponent },
     { path: '**', redirectTo: '/notfound' }
 ];

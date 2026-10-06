@@ -1,26 +1,68 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core'; // Added OnInit
 import { MenuItem } from 'primeng/api';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router'; 
 import { CommonModule } from '@angular/common';
-import { StyleClassModule } from 'primeng/styleclass'; 
+import { StyleClassModule } from 'primeng/styleclass';
 import { LayoutService } from '@/app/core/services/layout.service';
 import { AppConfigurator } from '../configurator/app.configurator.component';
+import { MenuModule } from 'primeng/menu';
+import { AuthService } from '@/app/core/services/auth/auth.service';
 
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator],
+    imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator, MenuModule],
     templateUrl: './app.topbar.component.html',
     styleUrl: './app.topbar.component.scss'
 })
-export class AppTopbar {
+export class AppTopbar implements OnInit { // Implemented OnInit
     items!: MenuItem[];
     layoutService = inject(LayoutService);
+    router = inject(Router);
+    authService = inject(AuthService); 
+    
+    nestedMenuItems: MenuItem[] = []; // Initialized as empty array
+
+    ngOnInit() {
+        // Moved initialization here
+        this.nestedMenuItems = [
+            {
+                label: 'Account',
+                items: [
+                    {
+                        label: 'My Profile',
+                        icon: 'pi pi-fw pi-user',
+                        routerLink: ['/profile']
+                    },
+                    {
+                        label: 'Settings',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/settings']
+                    },
+                    {
+                        separator: true 
+                    },
+                    {
+                        label: 'Logout',
+                        icon: 'pi pi-fw pi-sign-out',
+                        command: () => this.logout() 
+                    }
+                ]
+            }
+        ];
+    }
 
     toggleDarkMode() {
         this.layoutService.layoutConfig.update((state) => ({
             ...state,
             darkTheme: !state.darkTheme
         }));
+    }
+
+    logout() {
+        this.authService.logout();  
+        console.log('Logging out...');
+        localStorage.removeItem('accessToken');  
+        this.router.navigate(['/auth/login']);  
     }
 }

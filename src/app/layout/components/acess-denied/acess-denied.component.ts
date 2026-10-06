@@ -11,6 +11,6 @@ import { Component, inject, OnInit } from '@angular/core';
 export class AccessDeniedComponent {
     private readonly router = inject(Router);    
     GoToDashboard(): void {
-        this.router.navigate(['/']);
+        this.router.navigate(['/auth/login']);
     }
 }
