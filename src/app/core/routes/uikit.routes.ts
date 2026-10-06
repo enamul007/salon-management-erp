@@ -1,21 +1,21 @@
 import { Routes } from '@angular/router';
-import { ButtonDemo } from './buttondemo';
-import { ChartDemo } from './chartdemo';
-import { FileDemo } from './filedemo';
-import { FormLayoutDemo } from './formlayoutdemo';
-import { InputDemo } from './inputdemo';
-import { ListDemo } from './listdemo';
-import { MediaDemo } from './mediademo';
-import { MessagesDemo } from './messagesdemo';
-import { MiscDemo } from './miscdemo';
-import { PanelsDemo } from './panelsdemo';
-import { TimelineDemo } from './timelinedemo';
-import { TableDemo } from './tabledemo';
-import { OverlayDemo } from './overlaydemo';
-import { TreeDemo } from './treedemo';
-import { MenuDemo } from './menudemo';
+import { ButtonDemo } from '../../pages/uikit/buttondemo';
+import { ChartDemo } from '../../pages/uikit/chartdemo';
+import { FileDemo } from '../../pages/uikit/filedemo';
+import { FormLayoutDemo } from '../../pages/uikit/formlayoutdemo';
+import { InputDemo } from '../../pages/uikit/inputdemo';
+import { ListDemo } from '../../pages/uikit/listdemo';
+import { MediaDemo } from '../../pages/uikit/mediademo';
+import { MessagesDemo } from '../../pages/uikit/messagesdemo';
+import { MiscDemo } from '../../pages/uikit/miscdemo';
+import { PanelsDemo } from '../../pages/uikit/panelsdemo';
+import { TimelineDemo } from '../../pages/uikit/timelinedemo';
+import { TableDemo } from '../../pages/uikit/tabledemo';
+import { OverlayDemo } from '../../pages/uikit/overlaydemo';
+import { TreeDemo } from '../../pages/uikit/treedemo';
+import { MenuDemo } from '../../pages/uikit/menudemo';
 
-export default [
+export const uikitRoutes: Routes = [
     { path: 'button', data: { breadcrumb: 'Button' }, component: ButtonDemo },
     { path: 'charts', data: { breadcrumb: 'Charts' }, component: ChartDemo },
     { path: 'file', data: { breadcrumb: 'File' }, component: FileDemo },
@@ -32,4 +32,4 @@ export default [
     { path: 'tree', data: { breadcrumb: 'Tree' }, component: TreeDemo },
     { path: 'menu', data: { breadcrumb: 'Menu' }, component: MenuDemo },
     { path: '**', redirectTo: '/notfound' }
-] as Routes;
+];
