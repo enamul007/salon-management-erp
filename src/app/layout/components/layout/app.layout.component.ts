@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '@/app/core/services/layout.service';
 import { AppTopbar } from '../topbar/app.topbar.component';
 import { AppSidebar } from '../sidebar/app.sidebar.component';
 import { AppFooter } from '../footer/app.footer.component';

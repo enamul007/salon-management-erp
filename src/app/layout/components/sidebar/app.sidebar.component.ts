@@ -1,7 +1,7 @@
 import { Component, computed, effect, ElementRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '@/app/core/services/layout.service';
 import { AppMenu } from '../menu/app.menu.component'; 
 
 @Component({

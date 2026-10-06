@@ -3,7 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass'; 
-import { LayoutService } from '@/app/layout/service/layout.service';
+import { LayoutService } from '@/app/core/services/layout.service';
 import { AppConfigurator } from '../configurator/app.configurator.component';
 
 @Component({
