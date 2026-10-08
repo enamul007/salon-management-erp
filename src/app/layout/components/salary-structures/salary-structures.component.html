@@ -1,0 +1,145 @@
+<div class="card">
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <!-- Toolbar -->
+    <div class="flex justify-content-between align-items-center mb-4">
+        <h5 class="m-0">Manage Salary Structures</h5>
+        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+    </div>
+
+    <!-- Data Table -->
+    <p-table [value]="salarystructures()" [rows]="10" [paginator]="paginator()" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-structure>
+            <tr>
+                <td>{{ structure.name }}</td>
+                <td>{{ structure.amount }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-info mr-2"
+                        (click)="editSalaryStructure(structure)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                        (click)="deleteSalaryStructure(structure)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <!-- Create/Edit Dialog -->
+    <p-dialog (visible)="salaryDialog()" [style]="{width: '450px'}" header="Salary Structure Details" [modal]="true"
+        class="p-fluid">
+        <ng-template pTemplate="content">
+            <form [formGroup]="salaryStructureForm" (ngSubmit)="onSubmit()">
+                <div class="formgrid grid p-fluid">
+                    <!-- Employee ID -->
+                    <div class="field col-12">
+                        <label for="employeeId">Employee ID <span class="text-red-500">*</span></label>
+                        <input type="text" pInputText id="employeeId" formControlName="employeeId" autofocus />
+                        <!-- Validation Error Message -->
+                        @if (salaryStructureForm.get('employeeId')?.invalid &&
+                        (salaryStructureForm.get('employeeId')?.dirty ||
+                        salaryStructureForm.get('employeeId')?.touched)) {
+                        <small class="p-error">
+                            Employee ID is required.
+                        </small>
+                        }
+                    </div>
+
+                    <!-- Basic Salary -->
+                    <div class="field col-6">
+                        <label for="basicSalary">Basic Salary <span class="text-red-500">*</span></label>
+                        <p-inputNumber id="basicSalary" formControlName="basicSalary" mode="currency" currency="BDT"
+                            locale="en-US"></p-inputNumber>
+                        @if (salaryStructureForm.get('basicSalary')?.invalid &&
+                        (salaryStructureForm.get('basicSalary')?.dirty ||
+                        salaryStructureForm.get('basicSalary')?.touched)) {
+                        <small class="p-error">
+                            Basic Salary must be 0 or higher.
+                        </small>
+                        }
+                    </div>
+
+                    <!-- House Rent -->
+                    <div class="field col-6">
+                        <label for="houseRent">House Rent <span class="text-red-500">*</span></label>
+                        <p-inputNumber id="houseRent" formControlName="houseRent" mode="currency" currency="BDT"
+                            locale="en-US"></p-inputNumber>
+                        @if (salaryStructureForm.get('houseRent')?.invalid &&
+                        (salaryStructureForm.get('houseRent')?.dirty || salaryStructureForm.get('houseRent')?.touched))
+                        {
+                        <small class="p-error">
+                            House Rent must be 0 or higher.
+                        </small>
+                        }
+                    </div>
+
+                    <!-- Medical Allowance -->
+                    <div class="field col-6">
+                        <label for="medicalAllowance">Medical Allowance <span class="text-red-500">*</span></label>
+                        <p-inputNumber id="medicalAllowance" formControlName="medicalAllowance" mode="currency"
+                            currency="BDT" locale="en-US"></p-inputNumber>
+                    </div>
+
+                    <!-- Transport Allowance -->
+                    <div class="field col-6">
+                        <label for="transportAllowance">Transport Allowance <span class="text-red-500">*</span></label>
+                        <p-inputNumber id="transportAllowance" formControlName="transportAllowance" mode="currency"
+                            currency="BDT" locale="en-US"></p-inputNumber>
+                    </div>
+
+                    <!-- Gross Salary (Auto Calculated & Disabled) -->
+                    <div class="field col-6">
+                        <label for="grossSalary">Gross Salary</label>
+                        <p-inputNumber id="grossSalary" formControlName="grossSalary" mode="currency" currency="BDT"
+                            locale="en-US"></p-inputNumber>
+                    </div>
+
+                    <!-- Effective Date -->
+                    <div class="field col-6">
+                        <label for="effectiveDate">Effective Date <span class="text-red-500">*</span></label>
+                        <p-datePicker id="effectiveDate" formControlName="effectiveDate" dateFormat="dd/mm/yy"
+                            [showIcon]="true" appendTo="body"></p-datePicker>
+                        @if (salaryStructureForm.get('effectiveDate')?.invalid &&
+                        (salaryStructureForm.get('effectiveDate')?.dirty ||
+                        salaryStructureForm.get('effectiveDate')?.touched)) {
+                        <small class="p-error">
+                            Effective Date is required.
+                        </small>
+                        }
+                    </div>
+
+                    <!-- Status (Active/Inactive) -->
+                    <div class="field col-12 flex align-items-center mt-3">
+                        <label for="isActive" class="mr-3 mb-0">Status: </label>
+                        <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
+                        <span class="ml-2 font-bold"
+                            [ngClass]="salaryStructureForm.get('isActive')?.value ? 'text-green-500' : 'text-red-500'">
+                            {{ salaryStructureForm.get('isActive')?.value ? 'Active' : 'Inactive' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-content-end gap-2 mt-4">
+                    <button pButton pRipple type="button" label="Cancel" icon="pi pi-times" class="p-button-text"
+                        (click)="salaryStructureForm.reset()"></button>
+                    <button pButton pRipple type="submit" label="Save" icon="pi pi-check" class="p-button-primary"
+                        [disabled]="salaryStructureForm.invalid"></button>
+                </div>
+            </form>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+                (click)="saveSalaryStructure()"></button>
+        </ng-template>
+    </p-dialog>
+</div>

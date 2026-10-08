@@ -1,29 +1,28 @@
- import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
+import { BaseApiService } from '../base-service/base-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  private apiUrl = 'http://192.168.0.105:5126/api/auth/login'; // Replace with your actual API endpoint
-
-  constructor(private http: HttpClient) {}
-
+export class AuthService extends BaseApiService<any> {   
+  protected readonly endpoint = 'auth';   
+  private readonly TOKEN_KEY = 'accessToken';
   login(credentials: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, credentials).pipe(
+    return this.http.post<any>(`${this.url}/login`, credentials).pipe(
       tap(response => {
-        localStorage.setItem('accessToken', response.accessToken);
-      })
+        if (response?.accessToken) {
+          localStorage.setItem(this.TOKEN_KEY, response.accessToken);
+        }
+      }),
+      catchError(this.handleError.bind(this)) 
     );
   }
-
   getToken(): string | null {
-    return localStorage.getItem('accessToken');
+    return localStorage.getItem(this.TOKEN_KEY);
   }
-
   logout(): void {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem(this.TOKEN_KEY);
   }
 }
